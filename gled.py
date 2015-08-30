@@ -98,28 +98,7 @@ for subject in subjects:
     y = np.asarray(y.astype(np.float32))
     #print('y ',y.shape)
 
-# X = X_train
-# NO_TIME_POINTS = 100
-# TOTAL_TIME_POINTS = len(X) // NO_TIME_POINTS
-#
-# no_rows = TOTAL_TIME_POINTS * NO_TIME_POINTS
-# X = X[0:no_rows, :]
-# print('X ', X.shape)
-#
-# X = X.transpose()
-# X_Samples = np.split(X, TOTAL_TIME_POINTS, axis=1)
-# X = np.asarray(X_Samples)
-# print('X({0})'.format(X.shape))
-#
-# y = y[0:no_rows, :]
-# y = y[::NO_TIME_POINTS, :]
-# print('y({0})'.format(y.shape))
-
-
-
 ################ Read test data #####################################
-# Todo: remove after debguggling
-# subject = 9
 
     fnames = glob('../test1/subj%d_series*_data.csv' % (subject))
     test = []

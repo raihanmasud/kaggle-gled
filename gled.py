@@ -222,6 +222,13 @@ for k in range(REMAINDER_TEST_POINTS):
     pred_tot.append(pred_tot[-1])
 
 
+<<<<<<< Updated upstream
+=======
+print('pred_tot ',len(pred_tot))
+print('ids_tot ', len(ids_tot[0]))
+
+
+>>>>>>> Stashed changes
 # submission file
 submission_file = 'gled_conv_net_grasp.csv'
 # # create pandas object for sbmission

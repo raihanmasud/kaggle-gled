@@ -1,8 +1,8 @@
 __author__ = 'raihan'
 
 """
-Using Elena Cuoco's data loading...
-Borrowing idea from Denial Nouri's kfkd and  Tim Hochberg's script
+Borrowing from Elena Cuoco's data loading... &
+ConvNet Model from Denial Nouri's kfkd and  Tim Hochberg's script
 """
 
 import numpy as np
@@ -17,8 +17,6 @@ from sklearn.preprocessing import StandardScaler
 from lasagne.objectives import aggregate, binary_crossentropy
 
 #############function to read data###########
-
-
 def prepare_data_train(fname):
     """ read and prepare training data """
     # Read data
@@ -43,14 +41,14 @@ scaler = StandardScaler()
 
 
 def data_preprocess_train(X):
-    #X_prep = scaler.fit_transform(X)
+    # X_prep = scaler.fit_transform(X)
     # do here your preprocessing
     X_prep = X
     return X_prep
 
 
 def data_preprocess_test(X):
-    #X_prep = scaler.transform(X)
+    # X_prep = scaler.transform(X)
     # do here your preprocessing
     X_prep = X
     return X_prep
@@ -78,11 +76,11 @@ for subject in subjects:
     y_raw = []
     raw = []
     ##debug code remove
-    if subject > 1 :
-         continue
+    if subject > 1:
+        continue
 
     # ################ READ DATA ################################################
-    #fnames = glob('../train1/subj%d_series*_data_small.csv' % (subject))
+    # fnames = glob('../train1/subj%d_series*_data_small.csv' % (subject))
     fnames = glob('../train1/subj%d_series*_data.csv' % (subject))
 
     for fname in fnames:
@@ -94,59 +92,81 @@ for subject in subjects:
     y = pd.concat(y_raw)
 
     # transform in numpy array
-    #transform train data in numpy array
+    # transform train data in numpy array
     X_train = np.asarray(X.astype(np.float32))
     #print('X_train ', X_train.shape)
     y = np.asarray(y.astype(np.float32))
     #print('y ',y.shape)
 
-X = X_train
-# .reshape( X_train.shape[0],X_train.shape[1])
-
-
-
-NO_TIME_POINTS = 100
-TOTAL_TIME_POINTS = len(X)// NO_TIME_POINTS
-
-no_rows = TOTAL_TIME_POINTS*NO_TIME_POINTS
-X = X[0:no_rows,:]
-print('X ',X.shape)
-
-
-X = X.transpose()
-X_Samples = np.split(X,TOTAL_TIME_POINTS, axis=1)
-X = np.asarray(X_Samples)
-print('X({0})'.format(X.shape))
-
-y = y[0:no_rows,:]
-y = y[::NO_TIME_POINTS,:]
-print('y({0})'.format(y.shape))
+# X = X_train
+# NO_TIME_POINTS = 100
+# TOTAL_TIME_POINTS = len(X) // NO_TIME_POINTS
+#
+# no_rows = TOTAL_TIME_POINTS * NO_TIME_POINTS
+# X = X[0:no_rows, :]
+# print('X ', X.shape)
+#
+# X = X.transpose()
+# X_Samples = np.split(X, TOTAL_TIME_POINTS, axis=1)
+# X = np.asarray(X_Samples)
+# print('X({0})'.format(X.shape))
+#
+# y = y[0:no_rows, :]
+# y = y[::NO_TIME_POINTS, :]
+# print('y({0})'.format(y.shape))
 
 
 
 ################ Read test data #####################################
-#   #Todo: remove after debguggling
-    #subject = 9
-    #
-    # fnames = glob('../test1/subj%d_series*_data_small.csv' % (subject))
-    # test = []
-    # idx = []
-    # for fname in fnames:
-    #     data = prepare_data_test(fname)
-    #     test.append(data)
-    #     idx.append(np.array(data['id']))
-    # X_test = pd.concat(test)
-    # ids = np.concatenate(idx)
-    # ids_tot.append(ids)
-    # X_test = X_test.drop(['id'], axis=1)  # remove id
-    # # transform test data in numpy array
-    # X_test = np.asarray(X_test.astype(float))
+# Todo: remove after debguggling
+# subject = 9
+
+    fnames = glob('../test1/subj%d_series*_data.csv' % (subject))
+    test = []
+    idx = []
+    for fname in fnames:
+        data = prepare_data_test(fname)
+        test.append(data)
+        idx.append(np.array(data['id']))
+    X_test = pd.concat(test)
+    ids = np.concatenate(idx)
+    ids_tot.append(ids)
+    X_test = X_test.drop(['id'], axis=1)  # remove id
+    # transform test data in numpy array
+    X_test = np.asarray(X_test.astype(float))
 
 
+####process training data####
+X = X_train
+NO_TIME_POINTS = 100
+TOTAL_TIME_POINTS = len(X) // NO_TIME_POINTS
 
-# prediction = lasagne.layers.get_output(output_layer)
-# loss = lasagne.objectives.categorical_crossentropy(prediction, target_var)
-# loss = loss.mean()
+no_rows = TOTAL_TIME_POINTS * NO_TIME_POINTS
+X = X[0:no_rows, :]
+print('X ', X.shape)
+
+X = X.transpose()
+X_Samples = np.split(X, TOTAL_TIME_POINTS, axis=1)
+X = np.asarray(X_Samples)
+print('X({0})'.format(X.shape))
+
+y = y[0:no_rows, :]
+y = y[::NO_TIME_POINTS, :]
+print('y({0})'.format(y.shape))
+
+
+X_test = X_test
+NO_TIME_POINTS = 100
+TOTAL_TIME_POINTS = len(X_test) // NO_TIME_POINTS
+
+no_rows = TOTAL_TIME_POINTS * NO_TIME_POINTS
+X_test = X_test[0:no_rows, :]
+print('X ', X_test.shape)
+
+X_test = X_test.transpose()
+X_test_Samples = np.split(X_test, TOTAL_TIME_POINTS, axis=1)
+X_test = np.asarray(X_test_Samples)
+print('X_test({0})'.format(X_test.shape))
 
 ###########################################################################
 
@@ -155,20 +175,20 @@ def float32(k):
 
 
 channels = 32  # no. of input
-batch_size = None #None = arbitary batch size
-sample_size = 100 #change to 1024
-hidden_layer_size = 100 #change to 1024
+batch_size = None  #None = arbitary batch size
+sample_size = 100  #change to 1024
+hidden_layer_size = 100  #change to 1024
 N_EVENTS = 6
-max_epochs = 10 #increase it
+max_epochs = 10  #increase it
 
-def loss(x,t):
-        return aggregate(binary_crossentropy(x, t))
+
+def loss(x, t):
+    return aggregate(binary_crossentropy(x, t))
 
 
 net = NeuralNet(
     layers=[
         ('input', layers.InputLayer),
-        #add Dropout layer beween every two layers; see commented code above
         ('dropout1', layers.DropoutLayer),
         ('conv1', layers.Conv1DLayer),
         ('conv2', layers.Conv1DLayer),
@@ -181,25 +201,21 @@ net = NeuralNet(
         ('output', layers.DenseLayer),
     ],
     input_shape=(None, channels, sample_size),
-    dropout1_p = 0.5,
+    dropout1_p=0.5,
     conv1_num_filters=4, conv1_filter_size=1,
     conv2_num_filters=8, conv2_filter_size=4, pool1_pool_size=4,
-    dropout2_p = 0.5,hidden4_num_units=hidden_layer_size,
-    dropout3_p = 0.5, hidden5_num_units=hidden_layer_size,
-    dropout4_p = 0.5,output_num_units=N_EVENTS, output_nonlinearity=sigmoid,
+    dropout2_p=0.5, hidden4_num_units=hidden_layer_size,
+    dropout3_p=0.5, hidden5_num_units=hidden_layer_size,
+    dropout4_p=0.5, output_num_units=N_EVENTS, output_nonlinearity=sigmoid,
 
-    batch_iterator_train = BatchIterator(batch_size=20),
+    batch_iterator_train=BatchIterator(batch_size=20),
 
-    y_tensor_type=theano.tensor.matrix,  #something not used in kfkd
+    y_tensor_type=theano.tensor.matrix,
     update=nesterov_momentum,
-    #update_learning_rate=0.01,
-    #update_momentum=0.9,
-
-    #optional optimization from kfkd
     update_learning_rate=theano.shared(float32(0.03)),
     update_momentum=theano.shared(float32(0.9)),
 
-    objective_loss_function = loss,
+    objective_loss_function=loss,
     regression=True,
 
     #train_split=TrainSplit(eval_size=0.0, stratify=True),
@@ -210,16 +226,16 @@ net = NeuralNet(
 
 # batch_iterator_train = batch_iter_train,
 # batch_iterator_test = batch_iter_test,
-# objective_loss_function = loss,
 
 
-net.fit(X, y)  # submission file
+net.fit(X, y)
+
+#prediction = layers.get_output(output)
+# loss = lasagne.objectives.categorical_crossentropy(prediction, target_var)
+# loss = loss.mean()
 
 
-
-
-
-
+# submission file
 # submission_file = 'grasp-sub-simple.csv'
 # # create pandas object for sbmission
 # submission = pd.DataFrame(index=np.concatenate(ids_tot),

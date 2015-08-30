@@ -187,7 +187,8 @@ net = NeuralNet(
     dropout3_p=0.5, hidden5_num_units=hidden_layer_size,
     dropout4_p=0.5, output_num_units=N_EVENTS, output_nonlinearity=sigmoid,
 
-    batch_iterator_train=BatchIterator(batch_size=20),
+    batch_iterator_train = BatchIterator(batch_size=20),
+    batch_iterator_test = BatchIterator(batch_size=20),
 
     y_tensor_type=theano.tensor.matrix,
     update=nesterov_momentum,
@@ -203,7 +204,7 @@ net = NeuralNet(
     verbose=1,
 )
 
-# batch_iterator_train = batch_iter_train,
+
 # batch_iterator_test = batch_iter_test,
 
 

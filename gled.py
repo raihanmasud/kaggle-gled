@@ -10,7 +10,7 @@ import pandas as pd
 from glob import glob
 from lasagne import layers
 from lasagne.updates import nesterov_momentum
-from nolearn.lasagne import NeuralNet, TrainSplit
+from nolearn.lasagne import NeuralNet, BatchIterator, TrainSplit
 import theano
 from theano.tensor.nnet import sigmoid
 from sklearn.preprocessing import StandardScaler
@@ -81,7 +81,9 @@ for subject in subjects:
          continue
 
     # ################ READ DATA ################################################
-    fnames = glob('../train1/subj%d_series*_data_small.csv' % (subject))
+    #fnames = glob('../train1/subj%d_series*_data_small.csv' % (subject))
+    fnames = glob('../train1/subj%d_series*_data.csv' % (subject))
+
     for fname in fnames:
         data, labels = prepare_data_train(fname)
         raw.append(data)
@@ -100,15 +102,24 @@ for subject in subjects:
 X = X_train
 # .reshape( X_train.shape[0],X_train.shape[1])
 
-NO_TIME_SAMPLES = 100
-TOTAL_TIME_SAMPLES = len(X)/ NO_TIME_SAMPLES
+
+
+NO_TIME_POINTS = 100
+TOTAL_TIME_POINTS = len(X)// NO_TIME_POINTS
+
+no_rows = TOTAL_TIME_POINTS*NO_TIME_POINTS
+X = X[0:no_rows,:]
+print('X ',X.shape)
+
 
 X = X.transpose()
-X_Samples = np.split(X,TOTAL_TIME_SAMPLES, axis=1)
+X_Samples = np.split(X,TOTAL_TIME_POINTS, axis=1)
 X = np.asarray(X_Samples)
+print('X({0})'.format(X.shape))
 
-y = y[::NO_TIME_SAMPLES,:]
-
+y = y[0:no_rows,:]
+y = y[::NO_TIME_POINTS,:]
+print('y({0})'.format(y.shape))
 
 
 
@@ -165,6 +176,8 @@ net = NeuralNet(
     conv2_num_filters=8, conv2_filter_size=4, pool1_pool_size=4,
     hidden4_num_units=hidden_layer_size, hidden5_num_units=hidden_layer_size,
     output_num_units=N_EVENTS, output_nonlinearity=sigmoid,
+
+    batch_iterator_train = BatchIterator(batch_size=20),
 
     y_tensor_type=theano.tensor.matrix,  #something not used in kfkd
     update=nesterov_momentum,

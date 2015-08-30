@@ -10,7 +10,7 @@ import pandas as pd
 from glob import glob
 from lasagne import layers
 from lasagne.updates import nesterov_momentum
-from nolearn.lasagne import NeuralNet, BatchIterator, TrainSplit
+from nolearn.lasagne import NeuralNet, BatchIterator
 import theano
 from theano.tensor.nnet import sigmoid
 from sklearn.preprocessing import StandardScaler
@@ -41,7 +41,6 @@ scaler = StandardScaler()
 
 
 def data_preprocess_train(X):
-    # X_prep = scaler.fit_transform(X)
     # normalize data
     mean = X.mean(axis=0)
     X -= mean
@@ -52,7 +51,6 @@ def data_preprocess_train(X):
 
 
 def data_preprocess_test(X):
-    # X_prep = scaler.transform(X)
     # normalizing data
     mean = X.mean(axis=0)
     X -= mean
@@ -102,9 +100,7 @@ for subject in subjects:
     # transform in numpy array
     # transform train data in numpy array
     X_train = np.asarray(X.astype(np.float32))
-    #print('X_train ', X_train.shape)
     y = np.asarray(y.astype(np.float32))
-    #print('y ',y.shape)
 
 ################ Read test data #####################################
 
@@ -119,7 +115,7 @@ for subject in subjects:
 
     X_test = pd.concat(test)
     ids = np.concatenate(idx)
-    #ids_tot.append(ids)
+    ids_tot.append(ids)
     X_test = X_test.drop(['id'], axis=1)  # remove id
     # transform test data in numpy array
     X_test = np.asarray(X_test.astype(np.float32))
@@ -159,6 +155,7 @@ X_test_Samples = np.split(X_test, TOTAL_TIME_POINTS, axis=1)
 X_test = np.asarray(X_test_Samples)
 print('X_test({0})'.format(X_test.shape))
 
+ids_tot = ids_tot[:no_rows]
 ###########################################################################
 
 def float32(k):
@@ -225,11 +222,8 @@ params = net.get_all_params_values()
 learned_weights = net.load_params_from(params)
 probabilities = net.predict_proba(X_test)
 
-#ids_tot = []
-#pred_tot = []
 for i, p in enumerate(probabilities):
     print("subj{0}_series{1}_{2}: {3}".format(1,9,i, p)) #Todo: update for all subjects
-    ids_tot.append(i)
     pred_tot.append(p)
 
 # submission file

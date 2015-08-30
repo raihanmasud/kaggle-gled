@@ -240,6 +240,7 @@ submission = pd.DataFrame(index=np.concatenate(ids_tot),
                            data=np.concatenate(pred_tot))
 # # write file
 submission.to_csv(submission_file, index_label='id', float_format='%.6f')
+# submission file
 
 
 
@@ -256,29 +257,3 @@ submission.to_csv(submission_file, index_label='id', float_format='%.6f')
 
 
 
-
-
-
-# submission
-#submission_file = "grasp-sub-simple.csv"
-#submission_data = pd.read_csv("C:/Work/kaggle/ecg_grasp_lift/train/sample_submission.csv/sample_submission.csv")
-#submission_data = pd.read_csv("C:/Work/kaggle/ecg_grasp_lift/train/train/subj1_series1_events.csv")
-
-#print(submission_data[:2])
-
-#num_data = len(submission_data['id'])
-#index_set = set()
-
-# for index, row in submission_data.iterrows():
-#     current_index = np.random.randint(0, num_data)
-#     if current_index not in index_set:
-#         index_set.add(current_index)
-#         index += 150
-#     for i in range(index, index+150):
-#         if(submission_data['HandStart'][i]) != 1:
-#             submission_data['HandStart'][i] = 1
-
-
-#print(submission_data['HandStart'][:20])
-
-#submission

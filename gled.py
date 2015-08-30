@@ -14,6 +14,7 @@ from nolearn.lasagne import NeuralNet, BatchIterator, TrainSplit
 import theano
 from theano.tensor.nnet import sigmoid
 from sklearn.preprocessing import StandardScaler
+from lasagne.objectives import aggregate, binary_crossentropy
 
 #############function to read data###########
 
@@ -160,6 +161,10 @@ hidden_layer_size = 100 #change to 1024
 N_EVENTS = 6
 max_epochs = 10 #increase it
 
+def loss(x,t):
+        return aggregate(binary_crossentropy(x, t))
+
+
 net = NeuralNet(
     layers=[
         ('input', layers.InputLayer),
@@ -188,7 +193,7 @@ net = NeuralNet(
     update_learning_rate=theano.shared(float32(0.03)),
     update_momentum=theano.shared(float32(0.9)),
 
-
+    objective_loss_function = loss,
     regression=True,
 
     #train_split=TrainSplit(eval_size=0.0, stratify=True),

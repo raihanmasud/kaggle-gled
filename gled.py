@@ -42,14 +42,22 @@ scaler = StandardScaler()
 
 def data_preprocess_train(X):
     # X_prep = scaler.fit_transform(X)
-    # do here your preprocessing
+    # normalize data
+    mean = X.mean(axis=0)
+    X -= mean
+    std = X.std(axis=0)
+    X /= std
     X_prep = X
     return X_prep
 
 
 def data_preprocess_test(X):
     # X_prep = scaler.transform(X)
-    # do here your preprocessing
+    # normalizing data
+    mean = X.mean(axis=0)
+    X -= mean
+    std = X.std(axis=0)
+    X /= std
     X_prep = X
     return X_prep
 
@@ -101,22 +109,25 @@ for subject in subjects:
 ################ Read test data #####################################
 
     fnames = glob('../test1/subj%d_series*_data.csv' % (subject))
+
     test = []
     idx = []
     for fname in fnames:
         data = prepare_data_test(fname)
         test.append(data)
         idx.append(np.array(data['id']))
+
     X_test = pd.concat(test)
     ids = np.concatenate(idx)
     ids_tot.append(ids)
     X_test = X_test.drop(['id'], axis=1)  # remove id
     # transform test data in numpy array
-    X_test = np.asarray(X_test.astype(float))
+    X_test = np.asarray(X_test.astype(np.float32))
 
 
 ####process training data####
 X = X_train
+X = data_preprocess_train(X)
 NO_TIME_POINTS = 100
 TOTAL_TIME_POINTS = len(X) // NO_TIME_POINTS
 
@@ -135,12 +146,13 @@ print('y({0})'.format(y.shape))
 
 ####process test data####
 X_test = X_test
+X_test = data_preprocess_test(X_test)
 NO_TIME_POINTS = 100
 TOTAL_TIME_POINTS = len(X_test) // NO_TIME_POINTS
 
 no_rows = TOTAL_TIME_POINTS * NO_TIME_POINTS
 X_test = X_test[0:no_rows, :]
-print('X ', X_test.shape)
+print('X_test ', X_test.shape)
 
 X_test = X_test.transpose()
 X_test_Samples = np.split(X_test, TOTAL_TIME_POINTS, axis=1)
@@ -155,10 +167,9 @@ def float32(k):
 
 channels = 32  # no. of input
 batch_size = None  #None = arbitary batch size
-sample_size = 100  #change to 1024
 hidden_layer_size = 100  #change to 1024
 N_EVENTS = 6
-max_epochs = 10  #increase it
+max_epochs = 5  #increase it
 
 
 def loss(x, t):
@@ -179,7 +190,7 @@ net = NeuralNet(
         ('dropout4', layers.DropoutLayer),
         ('output', layers.DenseLayer),
     ],
-    input_shape=(None, channels, sample_size),
+    input_shape=(None, channels, NO_TIME_POINTS),
     dropout1_p=0.5,
     conv1_num_filters=4, conv1_filter_size=1,
     conv2_num_filters=8, conv2_filter_size=4, pool1_pool_size=4,

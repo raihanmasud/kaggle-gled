@@ -79,7 +79,6 @@ for subject in subjects:
         continue
 
     # ################ READ DATA ################################################
-    # fnames = glob('../train1/subj%d_series*_data_small.csv' % (subject))
     fnames = glob('../train1/subj%d_series*_data.csv' % (subject))
 
     for fname in fnames:
@@ -138,6 +137,7 @@ X_test = X_test
 X_test = data_preprocess_test(X_test)
 NO_TIME_POINTS = 100
 TOTAL_TIME_POINTS = len(X_test) // NO_TIME_POINTS
+REMAINDER_TEST_POINTS = len(X_test) % NO_TIME_POINTS
 
 no_rows = TOTAL_TIME_POINTS * NO_TIME_POINTS
 X_test = X_test[0:no_rows, :]
@@ -148,7 +148,11 @@ X_test_Samples = np.split(X_test, TOTAL_TIME_POINTS, axis=1)
 X_test = np.asarray(X_test_Samples)
 print('X_test({0})'.format(X_test.shape))
 
-ids_tot = ids_tot[:no_rows]
+
+#ids_tot[0] = ids_tot[0][:no_rows]
+#ids_tot[0] = ids_tot[0][::NO_TIME_POINTS]
+#print('id_test {}'.format(len(ids_tot[0])))
+
 ###########################################################################
 
 def float32(k):
@@ -199,15 +203,9 @@ net = NeuralNet(
     objective_loss_function=loss,
     regression=True,
 
-    #train_split=TrainSplit(eval_size=0.0, stratify=True),
-
     max_epochs=max_epochs,
     verbose=1,
 )
-
-
-# batch_iterator_test = batch_iter_test,
-
 
 net.fit(X, y)
 
@@ -217,11 +215,18 @@ probabilities = net.predict_proba(X_test)
 
 for i, p in enumerate(probabilities):
     print("subj{0}_series{1}_{2}: {3}".format(1,9,i, p)) #Todo: update for all subjects
-    pred_tot.append(p)
+    for j in range(NO_TIME_POINTS):
+        pred_tot.append(p)
+
+for k in range(REMAINDER_TEST_POINTS):
+    pred_tot.append(pred_tot[-1])
+
+
 
 # submission file
 submission_file = 'gled_conv_net_grasp.csv'
 # # create pandas object for sbmission
+
 submission = pd.DataFrame(index=np.concatenate(ids_tot),
                            columns=cols,
                            data=np.concatenate(pred_tot))

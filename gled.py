@@ -222,14 +222,13 @@ for k in range(REMAINDER_TEST_POINTS):
     pred_tot.append(pred_tot[-1])
 
 
-
 # submission file
 submission_file = 'gled_conv_net_grasp.csv'
 # # create pandas object for sbmission
 
 submission = pd.DataFrame(index=np.concatenate(ids_tot),
                            columns=cols,
-                           data=np.concatenate(pred_tot))
+                           data=pred_tot)
 # # write file
 submission.to_csv(submission_file, index_label='id', float_format='%.6f')
 # submission file

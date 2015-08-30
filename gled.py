@@ -169,18 +169,24 @@ net = NeuralNet(
     layers=[
         ('input', layers.InputLayer),
         #add Dropout layer beween every two layers; see commented code above
+        ('dropout1', layers.DropoutLayer),
         ('conv1', layers.Conv1DLayer),
         ('conv2', layers.Conv1DLayer),
         ('pool1', layers.MaxPool1DLayer),
+        ('dropout2', layers.DropoutLayer),
         ('hidden4', layers.DenseLayer),
+        ('dropout3', layers.DropoutLayer),
         ('hidden5', layers.DenseLayer),
+        ('dropout4', layers.DropoutLayer),
         ('output', layers.DenseLayer),
     ],
     input_shape=(None, channels, sample_size),
+    dropout1_p = 0.5,
     conv1_num_filters=4, conv1_filter_size=1,
     conv2_num_filters=8, conv2_filter_size=4, pool1_pool_size=4,
-    hidden4_num_units=hidden_layer_size, hidden5_num_units=hidden_layer_size,
-    output_num_units=N_EVENTS, output_nonlinearity=sigmoid,
+    dropout2_p = 0.5,hidden4_num_units=hidden_layer_size,
+    dropout3_p = 0.5, hidden5_num_units=hidden_layer_size,
+    dropout4_p = 0.5,output_num_units=N_EVENTS, output_nonlinearity=sigmoid,
 
     batch_iterator_train = BatchIterator(batch_size=20),
 

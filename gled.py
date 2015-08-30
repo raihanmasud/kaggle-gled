@@ -221,20 +221,26 @@ net = NeuralNet(
 
 net.fit(X, y)
 
-#prediction = layers.get_output(output)
-# loss = lasagne.objectives.categorical_crossentropy(prediction, target_var)
-# loss = loss.mean()
+params = net.get_all_params_values()
+learned_weights = net.load_weights_from(params)
+probabilities = net.predict_proba(X_test)
 
+ids_tot = []
+pred_tot = []
+for i, p in enumerate(probabilities):
+    print("subj{0}_series{1}_{2},".format(1,9,i)) #Todo: update for all subjects
+    ids_tot.append(i)
+    pred_tot.append(p)
 
 # submission file
-# submission_file = 'grasp-sub-simple.csv'
+submission_file = 'gled_conv_net_grasp.csv'
 # # create pandas object for sbmission
-# submission = pd.DataFrame(index=np.concatenate(ids_tot),
-#                           columns=cols,
-#                           data=np.concatenate(pred_tot))
+submission = pd.DataFrame(index=np.concatenate(ids_tot),
+                           columns=cols,
+                           data=np.concatenate(pred_tot))
 #
 # # write file
-# submission.to_csv(submission_file, index_label='id', float_format='%.3f')
+submission.to_csv(submission_file, index_label='id', float_format='%.6f')
 
 
 

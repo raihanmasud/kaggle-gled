@@ -93,11 +93,12 @@ for subject in subjects:
     # transform in numpy array
     #transform train data in numpy array
     X_train = np.asarray(X.astype(np.float32))
-    print('X_train ', X_train.shape)
+    #print('X_train ', X_train.shape)
     y = np.asarray(y.astype(np.float32))
-    print('y ',y.shape)
+    #print('y ',y.shape)
 
-X = X_train.reshape( X_train.shape[0],X_train.shape[1])
+X = X_train
+# .reshape( X_train.shape[0],X_train.shape[1])
 
 NO_TIME_SAMPLES = 100
 TOTAL_TIME_SAMPLES = len(X)/ NO_TIME_SAMPLES
@@ -105,15 +106,9 @@ TOTAL_TIME_SAMPLES = len(X)/ NO_TIME_SAMPLES
 X = X.transpose()
 X_Samples = np.split(X,TOTAL_TIME_SAMPLES, axis=1)
 X = np.asarray(X_Samples)
-print('X shape {}'.format(X.shape))
-
-y = y.reshape(y.shape[0],y.shape[1])
 
 y = y[::NO_TIME_SAMPLES,:]
-print('y shape {}'.format(y.shape))
 
-print('len(X)',len(X))
-print('len(y)',len(y))
 
 
 
@@ -148,7 +143,7 @@ def float32(k):
 
 
 channels = 32  # no. of input
-batch_size = 20 #None = arbitary batch size
+batch_size = None #None = arbitary batch size
 sample_size = 100 #change to 1024
 hidden_layer_size = 100 #change to 1024
 N_EVENTS = 6
@@ -158,17 +153,17 @@ net = NeuralNet(
     layers=[
         ('input', layers.InputLayer),
         #add Dropout layer beween every two layers; see commented code above
-        #('conv1', layers.Conv1DLayer),
-        #('conv2', layers.Conv1DLayer),
-        #('pool1', layers.MaxPool1DLayer),
+        ('conv1', layers.Conv1DLayer),
+        ('conv2', layers.Conv1DLayer),
+        ('pool1', layers.MaxPool1DLayer),
         ('hidden4', layers.DenseLayer),
-        #('hidden5', layers.DenseLayer),
+        ('hidden5', layers.DenseLayer),
         ('output', layers.DenseLayer),
     ],
-    input_shape=(batch_size, channels, sample_size),
-    #conv1_num_filters=4, conv1_filter_size=1,
-    #conv2_num_filters=8, conv2_filter_size=4, pool1_pool_size=4,
-    hidden4_num_units=hidden_layer_size, #hidden5_num_units=hidden_layer_size,
+    input_shape=(None, channels, sample_size),
+    conv1_num_filters=4, conv1_filter_size=1,
+    conv2_num_filters=8, conv2_filter_size=4, pool1_pool_size=4,
+    hidden4_num_units=hidden_layer_size, hidden5_num_units=hidden_layer_size,
     output_num_units=N_EVENTS, output_nonlinearity=sigmoid,
 
     y_tensor_type=theano.tensor.matrix,  #something not used in kfkd

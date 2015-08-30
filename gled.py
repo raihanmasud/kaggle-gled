@@ -2,7 +2,7 @@ __author__ = 'raihan'
 
 """
 Borrowing from Elena Cuoco's data loading... &
-ConvNet Model from Denial Nouri's kfkd and  Tim Hochberg's script
+ConvNet Model from Denial Nouri's kfkd and Tim Hochberg's script
 """
 
 import numpy as np
@@ -59,17 +59,10 @@ def data_preprocess_test(X):
     X_prep = X
     return X_prep
 
-##downsamplig naive like this is not correct, if you do not low pass filter.
-##this down sampling here it needed only to keep the script run below 10 minutes.
-## please do not downsample or use correct procedure to decimate data without alias
-subsample = 100  # training subsample.if you want to downsample the training data
 #######columns name for labels#############
 cols = ['HandStart', 'FirstDigitTouch',
         'BothStartLoadPhase', 'LiftOff',
         'Replace', 'BothReleased']
-
-
-
 
 #######number of subjects###############
 subjects = range(1, 13)

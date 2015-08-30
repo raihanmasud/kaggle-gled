@@ -222,13 +222,13 @@ net = NeuralNet(
 net.fit(X, y)
 
 params = net.get_all_params_values()
-learned_weights = net.load_weights_from(params)
+learned_weights = net.load_params_from(params)
 probabilities = net.predict_proba(X_test)
 
-ids_tot = []
-pred_tot = []
+#ids_tot = []
+#pred_tot = []
 for i, p in enumerate(probabilities):
-    print("subj{0}_series{1}_{2},".format(1,9,i)) #Todo: update for all subjects
+    print("subj{0}_series{1}_{2}: {3}".format(1,9,i, p)) #Todo: update for all subjects
     ids_tot.append(i)
     pred_tot.append(p)
 
@@ -238,7 +238,6 @@ submission_file = 'gled_conv_net_grasp.csv'
 submission = pd.DataFrame(index=np.concatenate(ids_tot),
                            columns=cols,
                            data=np.concatenate(pred_tot))
-#
 # # write file
 submission.to_csv(submission_file, index_label='id', float_format='%.6f')
 

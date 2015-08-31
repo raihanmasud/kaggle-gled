@@ -132,7 +132,7 @@ for subject in subjects:
     #    continue
 
     # ################ READ DATA ################################################
-    fnames = glob('../train1/subj%d_series*_data.csv' % (subject))
+    fnames = glob('../train/subj%d_series*_data.csv' % (subject))
 
     for fname in fnames:
         data, labels = prepare_data_train(fname)

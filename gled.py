@@ -146,7 +146,7 @@ for subject in subjects:
     # transform in numpy array
     # transform train data in numpy array
         X_train = np.asarray(X.astype(np.float32))
-        y = np.asarray(y.astype(np.float32))
+        y_train = np.asarray(y.astype(np.float32))
 
 ####process training data####
     X = X_train
@@ -162,6 +162,7 @@ for subject in subjects:
     X = np.asarray(X_Samples)
     print('X({0})'.format(X.shape))
 
+    y = y_train
     y = y[0:no_rows, :]
     y = y[::NO_TIME_POINTS, :]
     print('y({0})'.format(y.shape))

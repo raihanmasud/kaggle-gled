@@ -12,6 +12,7 @@ Todo for better accuracy:
     4. Down sample
     5. Increase batch_size inside BatchIterator
     6. Increase epoch size
+    7. Tweaking layers, size, etc might improve accuracy
 """
 
 import numpy as np
@@ -83,11 +84,11 @@ def float32(k):
     return np.cast['float32'](k)
 
 
-channels = 32  # no. of input
+channels = 32
 batch_size = None  #None = arbitary batch size
 hidden_layer_size = 100  #change to 1024
 N_EVENTS = 6
-max_epochs = 5  #increase it
+max_epochs = 20
 NO_TIME_POINTS = 100
 
 test_total = 0

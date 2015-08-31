@@ -90,7 +90,7 @@ channels = 32
 batch_size = None  #None = arbitary batch size
 hidden_layer_size = 100  #change to 1024
 N_EVENTS = 6
-max_epochs = 20
+max_epochs = 15
 NO_TIME_POINTS = 100
 
 test_total = 0
@@ -183,7 +183,7 @@ for subject in subjects:
     net.fit(X,y)
 
 ################ Read test data #####################################
-
+    print("Creating prediction file ... ")
     fnames = glob('../input/test/subj%d_series*_data.csv' % (subject))
 
     test = []

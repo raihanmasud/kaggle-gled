@@ -224,7 +224,7 @@ for subject in subjects:
             print("subj{0}_series{1}_{2}: {3}".format(subject, series, i, p))
             for j in range(NO_TIME_POINTS):
                 pred_tot.append(p)
-        sub = 'sub{0}_series{1}'.format(subject, series)
+        sub = 'subj{0}_series{1}'.format(subject, series)
         data_len = test_dict[sub]
         remainder_data = data_len % NO_TIME_POINTS
         for k in range(remainder_data):

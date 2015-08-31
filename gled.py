@@ -174,7 +174,7 @@ for subject in subjects:
 
 ################ Read test data #####################################
 
-    fnames = glob('../test1/subj%d_series*_data.csv' % (subject))
+    fnames = glob('../test/subj%d_series*_data.csv' % (subject))
 
     test = []
     idx = []
@@ -242,14 +242,17 @@ for subject in subjects:
     remainder_data10 = data_len10 % NO_TIME_POINTS
     print('remainder_data10 ',remainder_data10)
 
-    print(len(probabilities))
+    print('len-probab: ', len(probabilities))
     
     for i, p in enumerate(probabilities):
         for j in range(NO_TIME_POINTS):
             pred_tot.append(p)
         if i == total_time_points9 :
+            print('len-pred_tot',len(pred_tot))
+            print('i ',i)
             for k in range(remainder_data9):
                 pred_tot.append(pred_tot[-1])
+        print('len-pred_tot',len(pred_tot))
             
     for k in range(remainder_data10):
         pred_tot.append(pred_tot[-1])

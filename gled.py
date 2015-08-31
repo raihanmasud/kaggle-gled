@@ -157,17 +157,14 @@ for subject in subjects:
 
     no_rows = total_time_points * NO_TIME_POINTS
     X = X[0:no_rows, :]
-    print('X ', X.shape)
 
     X = X.transpose()
     X_Samples = np.split(X, total_time_points, axis=1)
     X = np.asarray(X_Samples)
-    print('X({0})'.format(X.shape))
 
     y = y_train
     y = y[0:no_rows, :]
     y = y[::NO_TIME_POINTS, :]
-    print('y({0})'.format(y.shape))
 
     print("Training subject%d...." %(subject))
     net.fit(X,y)
@@ -191,7 +188,6 @@ for subject in subjects:
         test_dict[data_name] = data_size
 
         test_total += data_size
-        print('subj{0} test_total= {1}'.format(subject,test_total))
 
     if idx and test:
         X_test = pd.concat(test)
@@ -210,12 +206,10 @@ for subject in subjects:
 
     no_rows = total_test_time_points * NO_TIME_POINTS
     X_test = X_test[0:no_rows, :]
-    print('X_test ', X_test.shape)
 
     X_test = X_test.transpose()
     X_test_Samples = np.split(X_test, total_test_time_points, axis=1)
     X_test = np.asarray(X_test_Samples)
-    print('X_test({0})'.format(X_test.shape))
 
 
 ###########################################################################

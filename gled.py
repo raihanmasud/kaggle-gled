@@ -81,6 +81,8 @@ N_EVENTS = 6
 max_epochs = 5  #increase it
 NO_TIME_POINTS = 100
 
+test_total = 0
+
 def loss(x, t):
     return aggregate(binary_crossentropy(x, t))
 
@@ -132,7 +134,7 @@ for subject in subjects:
     #    continue
 
     # ################ READ DATA ################################################
-    fnames = glob('../train/subj%d_series*_data.csv' % (subject))
+    fnames = glob('../train1/subj%d_series*_data.csv' % (subject))
 
     for fname in fnames:
         data, labels = prepare_data_train(fname)
@@ -188,6 +190,8 @@ for subject in subjects:
         data_name = 'subj{0}_series{1}'.format(subject, series)
         test_dict[data_name] = data_size
 
+        test_total += data_size
+        print('subj{0} test_total= {1}'.format(subject,test_total))
     X_test = pd.concat(test)
     ids = np.concatenate(idx)
     ids_tot.append(ids)

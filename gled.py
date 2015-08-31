@@ -251,7 +251,7 @@ for subject in subjects:
          #or i != data_len_s9_s10_rem10:
         for j in range(NO_TIME_POINTS):
             pred_tot.append(p)
-        if i != total_time_points9 :
+        if i+1 == total_time_points9 :
             print('len-pred_tot',len(pred_tot))
             print('i ',i)
             for k in range(remainder_data9):

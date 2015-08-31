@@ -232,7 +232,7 @@ for subject in subjects:
     data_len10 = test_dict[sub10]
     print('data_len10 ',data_len10)
     total_time_points10 = data_len10 // NO_TIME_POINTS
-    print('total_time_points10 ',data_len10)
+    print('total_time_points10 ',total_time_points10)
     remainder_data10 = data_len10 % NO_TIME_POINTS
     print('remainder_data10 ',remainder_data10)
 

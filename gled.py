@@ -236,6 +236,7 @@ for subject in subjects:
     remainder_data10 = data_len10 % NO_TIME_POINTS
     print('remainder_data10 ',remainder_data10)
 
+    print(len(probabilities))
     sr = 9
     for i, p in enumerate(probabilities):
         for j in range(NO_TIME_POINTS):

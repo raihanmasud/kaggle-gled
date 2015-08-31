@@ -28,6 +28,11 @@ from theano.tensor.nnet import sigmoid
 from sklearn.preprocessing import StandardScaler
 from lasagne.objectives import aggregate, binary_crossentropy
 
+import warnings
+warnings.filterwarnings('ignore', '.*topo.*')
+warnings.filterwarnings('ignore', module='.*lasagne.init.*')
+warnings.filterwarnings('ignore', module='.*nolearn.lasagne.*')
+
 #############function to read data###########
 def prepare_data_train(fname):
     """ read and prepare training data """
@@ -255,6 +260,7 @@ for subject in subjects:
         pred_tot.append(pred_tot[-1])
 
 # submission file
+print('Creating submission(prediction) file...')
 submission_file = './gled_conv_net_grasp.csv'
 # # create pandas object for sbmission
 

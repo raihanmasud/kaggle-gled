@@ -236,7 +236,7 @@ for subject in subjects:
 
     sr = 9
     for i, p in enumerate(probabilities):
-        print("subj{0}_series{1}_{2}: {3}".format(subject, sr, i, p))
+        #print("subj{0}_series{1}_{2}: {3}".format(subject, sr, i, p))
         for j in range(NO_TIME_POINTS):
             pred_tot.append(p)
         if i == total_time_points9:

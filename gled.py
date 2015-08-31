@@ -242,19 +242,21 @@ for subject in subjects:
     remainder_data10 = data_len10 % NO_TIME_POINTS
     print('remainder_data10 ',remainder_data10)
 
+    data_len_s9_s10_rem10 = data_len9+data_len10-remainder_data10
+
     print('len-probab: ', len(probabilities))
     
     for i, p in enumerate(probabilities):
-        for j in range(NO_TIME_POINTS):
-            pred_tot.append(p)
-        if i+1 == total_time_points9 :
+        if i+1 != total_time_points9 and i+1 != data_len_s9_s10_rem10:
+            for j in range(NO_TIME_POINTS):
+                pred_tot.append(p)
+        else:
             print('len-pred_tot',len(pred_tot))
             print('i ',i)
             for k in range(remainder_data9):
                 pred_tot.append(pred_tot[-1])
             print('len-pred_tot',len(pred_tot))
-    for j in range(NO_TIME_POINTS):
-            del pred_tot[-1]
+
     print('len-pred_tot',len(pred_tot))
     for k in range(remainder_data10):
         pred_tot.append(pred_tot[-1])

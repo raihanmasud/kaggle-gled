@@ -219,14 +219,16 @@ for subject in subjects:
     probabilities = net.predict_proba(X_test)
 
     sub9 = 'subj{0}_series{1}'.format(subject, 9)
+    print('sub_ser9 ',sub9)
     data_len9 = test_dict[sub9]
     print('data_len9 ',data_len9)
     total_time_points9 = data_len9 // NO_TIME_POINTS
-    print('total_time_points9 ',data_len9)
+    print('total_time_points9 ',total_time_points9)
     remainder_data9 = data_len9 % NO_TIME_POINTS
     print('remainder_data9 ',remainder_data9)
 
     sub10 = 'subj{0}_series{1}'.format(subject, 10)
+    print('sub_ser10 ',sub10)
     data_len10 = test_dict[sub10]
     print('data_len10 ',data_len10)
     total_time_points10 = data_len10 // NO_TIME_POINTS

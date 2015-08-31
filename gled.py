@@ -247,7 +247,7 @@ for subject in subjects:
     for i, p in enumerate(probabilities):
         for j in range(NO_TIME_POINTS):
             pred_tot.append(p)
-        if i == total_time_points9 :
+        if i+1 == total_time_points9 :
             print('len-pred_tot',len(pred_tot))
             print('i ',i)
             for k in range(remainder_data9):

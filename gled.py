@@ -177,9 +177,8 @@ for subject in subjects:
 
     test = []
     idx = []
-    print(type(fnames))
+
     fnames.reverse()
-    print(fnames)
     for fname in fnames:
         data = prepare_data_test(fname)
         test.append(data)

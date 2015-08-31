@@ -220,12 +220,12 @@ for subject in subjects:
 
     sub9 = 'subj{0}_series{1}'.format(subject, 9)
     data_len9 = test_dict[sub9]
-    total_time_points9 = data_len9 % NO_TIME_POINTS
+    total_time_points9 = data_len9 // NO_TIME_POINTS
     remainder_data9 = data_len9 % NO_TIME_POINTS
 
     sub10 = 'subj{0}_series{1}'.format(subject, 10)
     data_len10 = test_dict[sub10]
-    total_time_points10 = data_len10 % NO_TIME_POINTS
+    total_time_points10 = data_len10 // NO_TIME_POINTS
     remainder_data10 = data_len10 % NO_TIME_POINTS
 
     sr = 9

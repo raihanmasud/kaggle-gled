@@ -106,8 +106,8 @@ net = NeuralNet(
     dropout3_p=0.5, hidden5_num_units=hidden_layer_size,
     dropout4_p=0.5, output_num_units=N_EVENTS, output_nonlinearity=sigmoid,
 
-    batch_iterator_train = BatchIterator(batch_size=200),
-    batch_iterator_test = BatchIterator(batch_size=200),
+    batch_iterator_train = BatchIterator(batch_size=1000),
+    batch_iterator_test = BatchIterator(batch_size=1000),
 
     y_tensor_type=theano.tensor.matrix,
     update=nesterov_momentum,
@@ -168,8 +168,6 @@ for subject in subjects:
     print('y({0})'.format(y.shape))
 
     print("Training subject%d...." %(subject))
-
-    #Todo:Uncomment this line ot train model
     net.fit(X,y)
 
 ################ Read test data #####################################
@@ -220,17 +218,27 @@ for subject in subjects:
     learned_weights = net.load_params_from(params)
     probabilities = net.predict_proba(X_test)
 
-    for series in [9,10]:
-        for i, p in enumerate(probabilities):
-            print("subj{0}_series{1}_{2}: {3}".format(subject, series, i, p))
-            for j in range(NO_TIME_POINTS):
-                pred_tot.append(p)
-        sub = 'subj{0}_series{1}'.format(subject, series)
-        data_len = test_dict[sub]
-        remainder_data = data_len % NO_TIME_POINTS
-        for k in range(remainder_data):
-            pred_tot.append(pred_tot[-1])
+    sub9 = 'subj{0}_series{1}'.format(subject, 9)
+    data_len9 = test_dict[sub9]
+    total_time_points9 = data_len9 % NO_TIME_POINTS
+    remainder_data9 = data_len9 % NO_TIME_POINTS
 
+    sub10 = 'subj{0}_series{1}'.format(subject, 10)
+    data_len10 = test_dict[sub10]
+    total_time_points10 = data_len10 % NO_TIME_POINTS
+    remainder_data10 = data_len10 % NO_TIME_POINTS
+
+    sr = 9
+    for i, p in enumerate(probabilities):
+        print("subj{0}_series{1}_{2}: {3}".format(subject, sr, i, p))
+        for j in range(NO_TIME_POINTS):
+            pred_tot.append(p)
+        if i == total_time_points9:
+            for k in range(remainder_data9):
+                pred_tot.append(pred_tot[-1])
+            sr = 10
+    for k in range(remainder_data10):
+        pred_tot.append(pred_tot[-1])
 
 # submission file
 submission_file = './gled_conv_net_grasp.csv'

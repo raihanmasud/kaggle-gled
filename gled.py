@@ -254,7 +254,7 @@ for subject in subjects:
                 pred_tot.append(pred_tot[-1])
             print('len-pred_tot',len(pred_tot))
     for j in range(NO_TIME_POINTS):
-            pred_tot.pop(-1)
+            del pred_tot[-1]
     print('len-pred_tot',len(pred_tot))
     for k in range(remainder_data10):
         pred_tot.append(pred_tot[-1])

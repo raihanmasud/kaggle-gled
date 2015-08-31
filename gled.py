@@ -241,14 +241,14 @@ for subject in subjects:
     print('remainder_data10 ',remainder_data10)
 
     print(len(probabilities))
-    sr = 9
+    
     for i, p in enumerate(probabilities):
         for j in range(NO_TIME_POINTS):
             pred_tot.append(p)
-        if i == total_time_points9 - 1:
+        if i == total_time_points9 :
             for k in range(remainder_data9):
                 pred_tot.append(pred_tot[-1])
-            sr = 10
+            
     for k in range(remainder_data10):
         pred_tot.append(pred_tot[-1])
 

@@ -174,7 +174,7 @@ for subject in subjects:
 
 ################ Read test data #####################################
 
-    fnames = glob('../test/subj%d_series*_data.csv' % (subject))
+    fnames = glob('../test1/subj%d_series*_data.csv' % (subject))
 
     test = []
     idx = []

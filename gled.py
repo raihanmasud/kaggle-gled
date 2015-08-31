@@ -1,11 +1,12 @@
 __author__ = 'raihan'
 
 """
-@Author: Raihan Masud in collaboration with Md Faijul Amin
+@author: Raihan Masud in collaboration with Md Faijul Amin
 
 Borrowing from Elena Cuoco's data loading... &
 ConvNet Model from Denial Nouri's kfkd and Tim Hochberg's script
-Todo for better accuracy:
+
+Todos for better accuracy:
     1. Filter data
     2. Use past history/sliding window data
     3. Do not use future data
@@ -13,6 +14,7 @@ Todo for better accuracy:
     5. Increase batch_size inside BatchIterator
     6. Increase epoch size
     7. Tweaking layers, size, etc might improve accuracy
+    8. Add accuracy calculation for better interpretation
 """
 
 import numpy as np
@@ -225,7 +227,7 @@ for subject in subjects:
 
 ###########################################################################
 #######get predictions and write to files for series 9 and series 10#######
-
+    print("Testing subject%d...." %(subject))
     params = net.get_all_params_values()
     learned_weights = net.load_params_from(params)
     probabilities = net.predict_proba(X_test)

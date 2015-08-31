@@ -252,7 +252,7 @@ for subject in subjects:
             print('i ',i)
             for k in range(remainder_data9):
                 pred_tot.append(pred_tot[-1])
-        print('len-pred_tot',len(pred_tot))
+            print('len-pred_tot',len(pred_tot))
             
     for k in range(remainder_data10):
         pred_tot.append(pred_tot[-1])

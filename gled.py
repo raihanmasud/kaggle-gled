@@ -192,10 +192,12 @@ for subject in subjects:
 
         test_total += data_size
         print('subj{0} test_total= {1}'.format(subject,test_total))
-    X_test = pd.concat(test)
-    ids = np.concatenate(idx)
-    ids_tot.append(ids)
-    X_test = X_test.drop(['id'], axis=1)  # remove id
+
+    if idx and test:
+        X_test = pd.concat(test)
+        ids = np.concatenate(idx)
+        ids_tot.append(ids)
+        X_test = X_test.drop(['id'], axis=1)  # remove id
     # transform test data in numpy array
     X_test = np.asarray(X_test.astype(np.float32))
 

@@ -243,6 +243,7 @@ for subject in subjects:
     print('remainder_data10 ',remainder_data10)
 
     data_len_s9_s10_rem10 = data_len9+data_len10-remainder_data10
+    print('data_len_s9_s10_rem10 ',data_len_s9_s10_rem10)
 
     print('len-probab: ', len(probabilities))
     

@@ -1,8 +1,17 @@
 __author__ = 'raihan'
 
 """
+@Author: Raihan Masud in collaboration with Md Faijul Amin
+
 Borrowing from Elena Cuoco's data loading... &
 ConvNet Model from Denial Nouri's kfkd and Tim Hochberg's script
+Todo for better accuracy:
+    1. Filter data
+    2. Use past history/sliding window data
+    3. Do not use future data
+    4. Down sample
+    5. Increase batch_size inside BatchIterator
+    6. Increase epoch size
 """
 
 import numpy as np
@@ -86,6 +95,8 @@ test_total = 0
 def loss(x, t):
     return aggregate(binary_crossentropy(x, t))
 
+######################## Deep Neural Network MODEL wih Convolution Layers######################
+
 net = NeuralNet(
     layers=[
         ('input', layers.InputLayer),
@@ -122,6 +133,7 @@ net = NeuralNet(
     max_epochs=max_epochs,
     verbose=1,
 )
+######################## Deep Neural Network MODEL wih Convolution Layers######################
 
 
 
@@ -129,9 +141,7 @@ net = NeuralNet(
 for subject in subjects:
     y_raw = []
     raw = []
-    ##debug code remove
-    #if subject > 1:
-    #    continue
+
 
     # ################ READ DATA ################################################
     fnames = glob('../input/train/subj%d_series*_data.csv' % (subject))
@@ -213,6 +223,7 @@ for subject in subjects:
 
 
 ###########################################################################
+#######get predictions and write to files for series 9 and series 10#######
 
     params = net.get_all_params_values()
     learned_weights = net.load_params_from(params)
@@ -229,7 +240,6 @@ for subject in subjects:
     remainder_data10 = data_len10 % NO_TIME_POINTS
 
     total_test_points = total_time_points9+total_time_points10
-
 
     for i, p in enumerate(probabilities):
         if i != total_test_points:

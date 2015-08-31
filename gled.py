@@ -225,44 +225,27 @@ for subject in subjects:
     probabilities = net.predict_proba(X_test)
 
     sub9 = 'subj{0}_series{1}'.format(subject, 9)
-    print('sub_ser9 ',sub9)
     data_len9 = test_dict[sub9]
-    print('data_len9 ',data_len9)
     total_time_points9 = data_len9 // NO_TIME_POINTS
-    print('total_time_points9 ',total_time_points9)
     remainder_data9 = data_len9 % NO_TIME_POINTS
-    print('remainder_data9 ',remainder_data9)
 
     sub10 = 'subj{0}_series{1}'.format(subject, 10)
-    print('sub_ser10 ',sub10)
     data_len10 = test_dict[sub10]
-    print('data_len10 ',data_len10)
     total_time_points10 = data_len10 // NO_TIME_POINTS
-    print('total_time_points10 ',total_time_points10)
     remainder_data10 = data_len10 % NO_TIME_POINTS
-    print('remainder_data10 ',remainder_data10)
 
     total_test_points = total_time_points9+total_time_points10
-    print('total_test_points ',total_test_points)
 
-    print('len-probab: ', len(probabilities))
-    
+
     for i, p in enumerate(probabilities):
-         #or i != data_len_s9_s10_rem10:
         if i != total_test_points:
             for j in range(NO_TIME_POINTS):
                 pred_tot.append(p)
         if i+1 == total_time_points9 :
-            print('len-pred_tot',len(pred_tot))
-            print('i ',i)
             for k in range(remainder_data9):
                 pred_tot.append(pred_tot[-1])
-            print('len-pred_tot',len(pred_tot))
-    print('i ',i)
-    print('len-pred_tot',len(pred_tot))
     for k in range(remainder_data10):
         pred_tot.append(pred_tot[-1])
-    print('len-pred_tot',len(pred_tot))
 
 # submission file
 submission_file = './gled_conv_net_grasp.csv'

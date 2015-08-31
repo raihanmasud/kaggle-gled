@@ -247,7 +247,7 @@ for subject in subjects:
     print('len-probab: ', len(probabilities))
     
     for i, p in enumerate(probabilities):
-        if i != total_time_points9 and i+1 != data_len_s9_s10_rem10:
+        if i != total_time_points9 and i != data_len_s9_s10_rem10:
             for j in range(NO_TIME_POINTS):
                 pred_tot.append(p)
         else:

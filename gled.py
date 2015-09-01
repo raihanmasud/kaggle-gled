@@ -261,12 +261,20 @@ for subject in subjects:
 
 # submission file
 print('Creating submission(prediction) file...')
-submission_file = './gled_conv_net_grasp.csv'
+prediction_file = './gled_conv_net_grasp.csv'
+submission_file = './submission_gled_conv_net_grasp.csv'
+
 # # create pandas object for sbmission
 
-submission = pd.DataFrame(index=np.concatenate(ids_tot),
+predictionDf = pd.DataFrame(index=np.concatenate(ids_tot),
                            columns=cols,
                            data=pred_tot)
 # # write file
-submission.to_csv(submission_file, index_label='id', float_format='%.6f')
+predictionDf.to_csv(prediction_file, index_label='id', float_format='%.6f')
+
+#setting ones and zeros
+predictionDf.apply( lambda x: np.where(x == x.max() , 1 , 0) , axis = 1)
+predictionDf.to_csv(submission_file, index_label='id')
+
+
 # submission file
